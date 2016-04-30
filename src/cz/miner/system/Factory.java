@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manufaktura.system;
+package cz.miner.system;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-import manufaktura.workers.Tester;
-import manufaktura.workers.Worker;
-import manufaktura.workers.input.rssReader.RSSReader;
-import manufaktura.workers.output.terminalWriter.TerminalWriter;
+import cz.miner.workers.Tester;
+import cz.miner.workers.Worker;
+import cz.miner.workers.input.rssReader.RSSReader;
+import cz.miner.workers.output.terminalWriter.TerminalWriter;
 import org.xml.sax.SAXException;
 
 /**

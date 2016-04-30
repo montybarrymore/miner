@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manufaktura.workers.output.terminalWriter;
+package cz.miner.workers.output.terminalWriter;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,8 +15,8 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import manufaktura.system.Data;
-import manufaktura.workers.Worker;
+import cz.miner.system.Data;
+import cz.miner.workers.Worker;
 
 /**
  *

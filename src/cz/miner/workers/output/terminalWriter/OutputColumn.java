@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manufaktura.workers.output.terminalWriter;
+package cz.miner.workers.output.terminalWriter;
 
 /**
  *

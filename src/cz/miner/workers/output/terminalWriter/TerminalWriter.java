@@ -5,18 +5,19 @@
  */
 package cz.miner.workers.output.terminalWriter;
 
+import cz.miner.system.Data;
+import cz.miner.workers.Worker;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-import cz.miner.system.Data;
-import cz.miner.workers.Worker;
 
 /**
  *

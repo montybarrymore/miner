@@ -5,19 +5,20 @@
  */
 package cz.miner.system;
 
+import cz.miner.workers.Tester;
+import cz.miner.workers.Worker;
+import cz.miner.workers.input.rssReader.RSSReader;
+import cz.miner.workers.output.terminalWriter.TerminalWriter;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamException;
-import cz.miner.workers.Tester;
-import cz.miner.workers.Worker;
-import cz.miner.workers.input.rssReader.RSSReader;
-import cz.miner.workers.output.terminalWriter.TerminalWriter;
-import org.xml.sax.SAXException;
 
 /**
  *

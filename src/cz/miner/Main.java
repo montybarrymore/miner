@@ -5,12 +5,13 @@
  */
 package cz.miner;
 
-import java.io.FileNotFoundException;
 import cz.miner.system.Factory;
-import java.io.IOException;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-import org.xml.sax.SAXException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * 

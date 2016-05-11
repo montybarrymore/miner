@@ -6,7 +6,7 @@
 package cz.miner.system;
 
 /**
- *
+ * pokus
  * @author daniel
  */
 public class Cell {

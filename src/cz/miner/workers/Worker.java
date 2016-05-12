@@ -17,7 +17,11 @@ public class Worker {
 	public void doIt(Data data){
 		System.out.println(name_ + ": doIt nedefinovano");
 	}
-	
+
+	/**
+	 * Mastaví jméno workera.
+	 * @param name Jméno workera.
+     */
 	public void setName(String name){
 		name_ = name;
 	}

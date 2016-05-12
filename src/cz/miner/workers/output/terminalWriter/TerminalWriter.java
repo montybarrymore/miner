@@ -24,10 +24,17 @@ import java.util.List;
  * @author daniel
  */
 public class TerminalWriter extends Worker{
-	private String table_;
-	private List<OutputColumn> outputColumns_;
-	
-	public TerminalWriter(String iniFile) throws FileNotFoundException, XMLStreamException, IOException{
+    /**
+     * Jméno tabulky, ze které se vypisují sloupce na výstup.
+     */
+    private String table_;
+
+    /**
+     * Seznam sloupců, které se budou vypisovat na výstup.
+     */
+    private List<OutputColumn> outputColumns_;
+
+	public TerminalWriter(String iniFile) throws XMLStreamException, IOException{
 		outputColumns_ = new ArrayList<>();
 		
 		XMLInputFactory inputFactory = XMLInputFactory.newFactory();
@@ -75,7 +82,7 @@ public class TerminalWriter extends Worker{
 	}
 	
 	@Override
-	public void doIt(Data data){
+    public void doIt(Data data){
 		// Vrchni cara v tabulce
 		System.out.print("+");
 		for(OutputColumn outColumn : outputColumns_){

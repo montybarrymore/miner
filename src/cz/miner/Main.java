@@ -20,7 +20,7 @@ import java.io.IOException;
 public class Main {
 	/**
 	 * 
-	 * @param args the command line arguments
+	 * @param args cesta k ini souboru
 	 */
 	public static void main(String[] args) throws IOException, FileNotFoundException, XMLStreamException, ParserConfigurationException, SAXException {
 		String iniFile = args[0];

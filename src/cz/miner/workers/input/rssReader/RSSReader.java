@@ -28,7 +28,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
@@ -53,7 +52,7 @@ public class RSSReader extends Worker{
 	private String proxyName_ = "";
 	private String proxyPassword_ = "";
 	
-	public RSSReader(String iniFile) throws FileNotFoundException, XMLStreamException, IOException, ParserConfigurationException, SAXException{
+	public RSSReader(String iniFile) throws XMLStreamException, IOException, ParserConfigurationException, SAXException{
 		File fXmlFile = new File(iniFile);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

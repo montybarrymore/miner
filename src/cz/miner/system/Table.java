@@ -33,7 +33,7 @@ public class Table {
 	
 	public void addRow(){
 		for(Column column : columns){
-			column.cells.add(new Cell());
+			column.addEmptyCell();
 		}
 		rowCount_++;
 	}
@@ -50,7 +50,7 @@ public class Table {
 		Object returnValue = null;
 		for(Column column : columns){
 			if(column.getName().equals(columnName)){
-				returnValue = column.cells.get(rowNumber).getValue();
+				returnValue = column.getValue(rowNumber);
 			}
 		}
 		return returnValue;

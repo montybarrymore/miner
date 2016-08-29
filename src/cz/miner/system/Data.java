@@ -41,19 +41,19 @@ public class Data {
 		}		
 	}
 	
-	public void setValue(String tableName, String columnName, int rowNumer, Object value){
+	public void setValue(String tableName, String columnName, int rowNumber, Object value){
 		for(Table table : tables){
 			if(table.getName().equals(tableName)){
-				table.setValue(columnName, rowNumer, value);
+				table.setValue(columnName, rowNumber, value);
 			}			
 		}
 	}
-	
-	public Object getValue(String tableName, String columnName, int rowNumer){
+
+	public Object getValue(String tableName, String columnName, int rowNumber){
 		Object returnValue = null;
 		for(Table t : tables){
 			if(t.getName().equals(tableName)){
-				returnValue = t.getValue(columnName, rowNumer);
+				returnValue = t.getValue(columnName, rowNumber);
 			}
 		}
 		return returnValue;

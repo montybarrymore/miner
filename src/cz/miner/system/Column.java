@@ -9,11 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author daniel
+ * Slouží k uložení buněk třídy Cell.
  */
 public class Column {
-	public List<Cell> cells;
+	/**
+	 * Seznam buněk.
+	 */
+	private List<Cell> cells;
+
+	/**
+	 * Jméno sloupce.
+	 */
 	private String name_;
 	
 	public Column(String name, int rowCount){
@@ -24,7 +30,7 @@ public class Column {
 	public Object getValue(int rowNumber){
 		Object returnValue = null;
 		if(rowNumber < cells.size()){
-			returnValue = cells.get(rowNumber);
+			returnValue = cells.get(rowNumber).getValue();
 		}
 		return returnValue;
 	}
@@ -35,5 +41,9 @@ public class Column {
 	
 	public String getName(){
 		return name_;
+	}
+
+	public void addEmptyCell() {
+		cells.add(new Cell());
 	}
 }

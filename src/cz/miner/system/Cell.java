@@ -6,16 +6,26 @@
 package cz.miner.system;
 
 /**
- * pokus
- * @author daniel
+ * Slouží k uložení dat. Může obsahovat libovolný objekt.
  */
 public class Cell {
+	/**
+	 * Hodnota uložená v buňce.
+	 */
 	private Object value_;
-	
+
+	/**
+	 * Vrátí hodnotu uloženou v buňce.
+	 * @return	Uložená hodnota.
+	 */
 	public Object getValue(){
 		return value_;
 	}
-	
+
+	/**
+	 * Nastaví hodnotu buňky. V případě, že je již hodnota nastavena, je stará hodnota přepsána.
+	 * @param value    Nová hodnota buňky.
+	 */
 	public void setValue(Object value){
 		value_ = value;
 	}

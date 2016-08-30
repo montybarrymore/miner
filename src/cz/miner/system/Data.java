@@ -14,19 +14,19 @@ import java.util.List;
  */
 public class Data {
 	private String name_;
-	public List<Table> tables;
+	private List<Table> tables_;
 	
 	public Data(String name){
 		name_ = name;
-		tables = new ArrayList<>();
+		tables_ = new ArrayList<>();
 	}
 	
 	public void addTable(String name){
-		tables.add(new Table(name));
+		tables_.add(new Table(name));
 	}
 	
 	public void addColumn(String tableName, String columnName){
-		for(Table table : tables){
+		for(Table table : tables_){
 			if(table.getName().equals(tableName)){
 				table.addColumn(columnName);
 			}
@@ -34,7 +34,7 @@ public class Data {
 	}
 	
 	public void addRow(String tableName){
-		for(Table table : tables){
+		for(Table table : tables_){
 			if(table.getName().equals(tableName)){
 				table.addRow();
 			}
@@ -42,7 +42,7 @@ public class Data {
 	}
 	
 	public void setValue(String tableName, String columnName, int rowNumber, Object value){
-		for(Table table : tables){
+		for(Table table : tables_){
 			if(table.getName().equals(tableName)){
 				table.setValue(columnName, rowNumber, value);
 			}			
@@ -51,7 +51,7 @@ public class Data {
 
 	public Object getValue(String tableName, String columnName, int rowNumber){
 		Object returnValue = null;
-		for(Table t : tables){
+		for(Table t : tables_){
 			if(t.getName().equals(tableName)){
 				returnValue = t.getValue(columnName, rowNumber);
 			}
@@ -61,7 +61,7 @@ public class Data {
 	
 	public int getRowCount(String table){
 		int returnValue = 0;
-		for(Table t : tables){
+		for(Table t : tables_){
 			if(t.getName().equals(table)){
 				returnValue = t.getRowCount();
 			}

@@ -15,16 +15,16 @@ import java.util.List;
 public class Table {
 	private String name_;
 	private int rowCount_;
-	public List<Column> columns;
+	private List<Column> columns_;
 	
 	public Table(String name){
 		name_ = name;
 		rowCount_ = 0;
-		columns = new ArrayList<>();
+		columns_ = new ArrayList<>();
 	}
 	
 	public void addColumn(String name){
-		columns.add(new Column(name, rowCount_));
+		columns_.add(new Column(name, rowCount_));
 	}
 	
 	public String getName(){
@@ -32,14 +32,14 @@ public class Table {
 	}
 	
 	public void addRow(){
-		for(Column column : columns){
+		for(Column column : columns_){
 			column.addEmptyCell();
 		}
 		rowCount_++;
 	}
 	
 	public void setValue(String columnName, int rowNumber, Object value){
-		for(Column column : columns){
+		for(Column column : columns_){
 			if(column.getName().equals(columnName)){
 				column.setValue(rowNumber, value);
 			}
@@ -48,7 +48,7 @@ public class Table {
 	
 	public Object getValue(String columnName, int rowNumber){
 		Object returnValue = null;
-		for(Column column : columns){
+		for(Column column : columns_){
 			if(column.getName().equals(columnName)){
 				returnValue = column.getValue(rowNumber);
 			}

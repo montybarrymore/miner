@@ -15,7 +15,7 @@ public class Column {
 	/**
 	 * Seznam buněk.
 	 */
-	private List<Cell> cells;
+	private List<Cell> cells_;
 
 	/**
 	 * Jméno sloupce.
@@ -24,19 +24,19 @@ public class Column {
 	
 	public Column(String name, int rowCount){
 		name_ = name;
-		cells = new ArrayList<>(rowCount);
+		cells_ = new ArrayList<>(rowCount);
 	}
 	
 	public Object getValue(int rowNumber){
 		Object returnValue = null;
-		if(rowNumber < cells.size()){
-			returnValue = cells.get(rowNumber).getValue();
+		if(rowNumber < cells_.size()){
+			returnValue = cells_.get(rowNumber).getValue();
 		}
 		return returnValue;
 	}
 	
 	public void setValue(int rowNumber, Object value){
-		cells.get(rowNumber).setValue(value);
+		cells_.get(rowNumber).setValue(value);
 	}
 	
 	public String getName(){
@@ -44,6 +44,6 @@ public class Column {
 	}
 
 	public void addEmptyCell() {
-		cells.add(new Cell());
+		cells_.add(new Cell());
 	}
 }

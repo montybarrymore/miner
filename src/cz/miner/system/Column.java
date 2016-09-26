@@ -21,12 +21,22 @@ public class Column {
 	 * Jméno sloupce.
 	 */
 	private String name_;
-	
+
+	/**
+	 * Konstruktor sloupce. Vytvoří nový sloupec se zadaným jménem a počtem řádků.
+	 * @param name	jméno sloupce.
+	 * @param rowCount	počet řádků.
+	 */
 	public Column(String name, int rowCount){
 		name_ = name;
 		cells_ = new ArrayList<>(rowCount);
 	}
-	
+
+	/**
+	 * Vrátí hodnotu buňky.
+	 * @param rowNumber	číslo řádku.
+	 * @return	hodnota buňky.
+	 */
 	public Object getValue(int rowNumber){
 		Object returnValue = null;
 		if(rowNumber < cells_.size()){

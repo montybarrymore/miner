@@ -44,15 +44,27 @@ public class Column {
 		}
 		return returnValue;
 	}
-	
+
+	/**
+     * Nastaví hodnotu buňky.
+     * @param rowNumber číslo řádku.
+     * @param value hodnota buňky.
+     */
 	public void setValue(int rowNumber, Object value){
 		cells_.get(rowNumber).setValue(value);
 	}
-	
+
+    /**
+     * Vrátí název sloupce.
+     * @return  název sloupce.
+     */
 	public String getName(){
 		return name_;
 	}
 
+    /**
+     * Přidá prázdnou buňku na konec sloupce.
+     */
 	public void addEmptyCell() {
 		cells_.add(new Cell());
 	}

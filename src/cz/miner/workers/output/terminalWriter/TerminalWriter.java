@@ -19,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author daniel
+ * Vypíše na terminál obsah vybraných sloupců z dané tabulky.
  */
 public class TerminalWriter extends Worker{
     /**
@@ -33,6 +32,12 @@ public class TerminalWriter extends Worker{
      */
     private List<OutputColumn> outputColumns_;
 
+	/**
+	 * Vytvoří nový TerminalWriter.
+	 * @param iniFile cesta ke konfiguračnímu souboru.
+	 * @throws XMLStreamException něco je špatně.
+	 * @throws IOException něco je špatně.
+	 */
 	public TerminalWriter(String iniFile) throws XMLStreamException, IOException{
 		outputColumns_ = new ArrayList<>();
 		
@@ -79,7 +84,11 @@ public class TerminalWriter extends Worker{
 		}
 		inputStream.close();
 	}
-	
+
+	/**
+	 * Vypíše obsah tabulky na terminál.
+	 * @param data datastream.
+	 */
 	@Override
     public void doIt(Data data){
 		// Vrchni cara v tabulce

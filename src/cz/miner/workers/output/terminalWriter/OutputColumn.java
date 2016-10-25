@@ -6,10 +6,16 @@
 package cz.miner.workers.output.terminalWriter;
 
 /**
- *
- * @author daniel
+ * Sloupec, který má být vypsán.
  */
 public class OutputColumn {
+	/**
+	 * Jméno sloupce.
+	 */
 	public String name;
+
+	/**
+	 * Šířka sloupce ve znacích.
+	 */
 	public int width;
 }

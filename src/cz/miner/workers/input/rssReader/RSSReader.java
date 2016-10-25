@@ -37,27 +37,74 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author daniel
+ * Načítá obsah RSS kanálu do datového streamu.
  */
 public class RSSReader extends Worker{
+	/**
+	 * Adresa rss streamu.
+	 */
 	private String url_;
-	private String table_;
-	private String column_;
-	private List<String> newLinks_ = new ArrayList<>();
-	private List<String> oldLinks_ = new ArrayList<>();	
-	private List<String> regexes_ = new ArrayList<>();
-	private String proxyAddress_ = "";
-	private int proxyPort_ = 0;
-	private String proxyName_ = "";
-	private String proxyPassword_ = "";
-	
-	public RSSReader(String iniFile) throws XMLStreamException, IOException, ParserConfigurationException, SAXException{
+
+    /**
+     * Jméno tabulky, do které se načítá text z RSS.
+     */
+    private String table_;
+
+    /**
+     * Jméno sloupce, do kerého se načítá tex z RSS.
+     */
+    private String column_;
+
+    /**
+     * List obsahující nově přidané odkazy.
+     */
+    private List<String> newLinks_ = new ArrayList<>();
+
+    /**
+     * List obsahující již navštívené odkazy.
+     */
+    private List<String> oldLinks_ = new ArrayList<>();
+
+    /**
+     * List obsahující regulární výrazy pro ořezání textu.
+     */
+    private List<String> regexes_ = new ArrayList<>();
+
+    /**
+     * Prohy host.
+     */
+    private String proxyAddress_ = "";
+
+    /**
+     * Proxy port.
+     */
+    private int proxyPort_ = 0;
+
+    /**
+     * Username proxy.
+     */
+    private String proxyName_ = "";
+
+    /**
+     * Password proxy.
+     */
+    private String proxyPassword_ = "";
+
+    /**
+     * Vytvoří RSSReader.
+     *
+     * @param iniFile cesta ke konfiguračnímu souboru.
+     * @throws XMLStreamException něco je špatně.
+     * @throws IOException něco je špatně.
+     * @throws ParserConfigurationException něco je špatně.
+     * @throws SAXException něco je špatně.
+     */
+    public RSSReader(String iniFile) throws XMLStreamException, IOException, ParserConfigurationException, SAXException{
 		File fXmlFile = new File(iniFile);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
-			
+
 		doc.getDocumentElement().normalize();
 
 		url_ = doc.getElementsByTagName("url").item(0).getTextContent();
@@ -84,7 +131,11 @@ public class RSSReader extends Worker{
 			proxyPassword_ = pe.getElementsByTagName("password").item(0).getTextContent();			
 		}
 	}
-	
+
+    /**
+     * Načte data z RSS kanálu do streamu.
+     * @param data datastream.
+     */
 	@Override
 	public void doIt(Data data){
 		data.addTable(table_);
@@ -168,7 +219,12 @@ public class RSSReader extends Worker{
 			Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
+
+    /**
+     * Otestuje odkaz, zda je nový.
+     * @param link odkaz.
+     * @return true, pokud je odkaz nový.
+     */
 	private boolean isNewLink(String link){
 		boolean returnValue = true;
 		for(String oldLink : oldLinks_){
@@ -184,8 +240,12 @@ public class RSSReader extends Worker{
 		}
 		return returnValue;
 	}
-	
-	private void readLinks() throws IOException{
+
+    /**
+     * Extrahuje odkazy z textu.
+     * @throws IOException něco je špatně.
+     */
+    private void readLinks() throws IOException{
 		URL rssURL = null;
 		try {
 			rssURL = new URL(url_);
@@ -249,7 +309,12 @@ public class RSSReader extends Worker{
 		}
 		rssStream.close();
 	}
-	
+
+    /**
+     * Odstraní konce řádků a ořízne text na základě regexes_.
+     * @param string zpracovávaný text.
+     * @return ořezaný text.
+     */
 	private String trimString(String string){
 		String returnValue = string;
 		returnValue = returnValue.replaceAll("\t+", " ");
@@ -267,9 +332,16 @@ public class RSSReader extends Worker{
 		returnValue = returnValue.replaceAll("---line terminator---","\r\n");
 		return returnValue;
 	}
-	
+
+    /**
+     * Autentizátor pro proxy.
+     */
 	Authenticator authenticator = new Authenticator() {
-		@Override
+        /**
+         * Autentizace pro proxy.
+         * @return autentizace pro proxy.
+         */
+        @Override
 		public PasswordAuthentication getPasswordAuthentication() {
             return (new PasswordAuthentication(proxyName_, proxyPassword_.toCharArray()));
         }

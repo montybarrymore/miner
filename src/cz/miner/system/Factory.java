@@ -14,20 +14,34 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author daniel
+ * Slouží k řízení jednotlivých workerů.
  */
 public class Factory {
+    /**
+     * Seznam workerů ve Factory.
+     */
 	private List<Worker> workers_;
-	private String streamName_;
-	public Factory(String iniFile) throws FileNotFoundException, IOException, XMLStreamException, ParserConfigurationException, SAXException{
+
+    /**
+     * Název streamu.
+     */
+    private String streamName_;
+
+    /**
+     * Vytvoří novou factory.
+     * @param iniFile cesta ke konfiguračnímu souboru.
+     * @throws IOException někde je chyba.
+     * @throws XMLStreamException někde je chyba.
+     * @throws ParserConfigurationException někde je chyba.
+     * @throws SAXException někde je chyba.
+     */
+	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException{
 		BufferedReader br = new BufferedReader(new FileReader(iniFile));
 		streamName_ = br.readLine();
 		workers_ = new ArrayList<>();
@@ -67,8 +81,11 @@ public class Factory {
 			}
 		}
 	}
-	
-	public void work(){
+
+    /**
+     * Zahájí zpracování streamu.
+     */
+    public void work(){
 		while(true){
 			Data data = new Data(streamName_);
 			for(int i = 0; i < workers_.size(); i++){

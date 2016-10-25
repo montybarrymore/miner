@@ -10,7 +10,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -18,11 +17,15 @@ import java.io.IOException;
  * @author daniel
  */ 
 public class Main {
-	/**
-	 * 
-	 * @param args cesta k ini souboru
-	 */
-	public static void main(String[] args) throws IOException, FileNotFoundException, XMLStreamException, ParserConfigurationException, SAXException {
+    /**
+     * Tady to všechno začíná.
+     * @param args cesta ke konfiguračnímu souboru.
+     * @throws IOException někde je chyba.
+     * @throws XMLStreamException někde je chyba.
+     * @throws ParserConfigurationException někde je chyba.
+     * @throws SAXException někde je chyba.
+     */
+	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException {
 		String iniFile = args[0];
 		Factory factory = new Factory(iniFile);
 		factory.work();

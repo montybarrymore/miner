@@ -8,19 +8,25 @@ package cz.miner.workers;
 import cz.miner.system.Data;
 
 /**
- *
- * @author daniel
+ * Dělník ve Factory.
  */
 public class Worker {
+	/**
+	 * Jméno workera.
+	 */
 	private String name_;
-	
+
+	/**
+	 * Zpracuje data.
+	 * @param data zpracovávaný datastream.
+	 */
 	public void doIt(Data data){
 		System.out.println(name_ + ": doIt nedefinovano");
 	}
 
 	/**
 	 * Mastaví jméno workera.
-	 * @param name Jméno workera.
+	 * @param name jméno workera.
      */
 	public void setName(String name){
 		name_ = name;

@@ -6,10 +6,13 @@
 package cz.miner.workers;
 
 /**
- *
- * @author daniel
+ * Testovací worker. Nic nedělá.
  */
 public class Tester extends Worker{
+	/**
+	 * Vytvoří nový Tester a vypíše iniFile.
+	 * @param iniFile cesta ke konfiguračnímu souboru.
+	 */
 	public Tester(String iniFile){
 		System.out.println(iniFile);
 	}

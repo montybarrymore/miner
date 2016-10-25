@@ -9,35 +9,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author daniel
+ * Obsahuje data uspořádaná do sloupců a řádků.
  */
 public class Table {
+	/**
+	 * Jméno tabulky.
+	 */
 	private String name_;
+
+	/**
+	 * Počet řádků v tabulce.
+	 */
 	private int rowCount_;
-	private List<Column> columns_;
-	
-	public Table(String name){
+
+    /**
+     * list obsahující sloupce tabulky.
+     */
+    private List<Column> columns_;
+
+    /**
+     * Vytvoří novou tabulku.
+     * @param name jméno tabulky.
+     */
+    public Table(String name){
 		name_ = name;
 		rowCount_ = 0;
 		columns_ = new ArrayList<>();
 	}
-	
-	public void addColumn(String name){
+
+    /**
+     * Přídá sloupec do tabulky.
+     * @param name jméno sloupce.
+     */
+    public void addColumn(String name){
 		columns_.add(new Column(name, rowCount_));
 	}
-	
-	public String getName(){
+
+    /**
+     * Vrátí jméno tabulky.
+     * @return jméno tabulky.
+     */
+    public String getName(){
 		return name_;
 	}
-	
-	public void addRow(){
+
+    /**
+     * Přidá řádek ke všem sloupcům v tabulce.
+     */
+    public void addRow(){
 		for(Column column : columns_){
 			column.addEmptyCell();
 		}
 		rowCount_++;
 	}
-	
+
+    /**
+     * Nastaví hodnotu buňky.
+     * @param columnName jméno sloupce.
+     * @param rowNumber číslo řádku.
+     * @param value hodnota buňky.
+     */
 	public void setValue(String columnName, int rowNumber, Object value){
 		for(Column column : columns_){
 			if(column.getName().equals(columnName)){
@@ -45,8 +76,14 @@ public class Table {
 			}
 		}
 	}
-	
-	public Object getValue(String columnName, int rowNumber){
+
+    /**
+     * Vrátí hodnotu buňky.
+     * @param columnName jméno sloupce.
+     * @param rowNumber číslo řádku.
+     * @return hodnota buňky.
+     */
+    public Object getValue(String columnName, int rowNumber){
 		Object returnValue = null;
 		for(Column column : columns_){
 			if(column.getName().equals(columnName)){
@@ -55,7 +92,11 @@ public class Table {
 		}
 		return returnValue;
 	}
-	
+
+    /**
+     * Vrátí počet řádků tabulky.
+     * @return počet řádků.
+     */
 	public int getRowCount(){
 		return rowCount_;
 	}

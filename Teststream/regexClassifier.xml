@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <settings>
+        <inputTable>text</inputTable>
+        <inputColumn>text</inputColumn>
+    </settings>
+
+    <knowledgebase>
+        <item>
+            <id>1</id>
+            <name>Ovčáček</name>
+            <category>zemanova parta</category>
+            <category>zemanova parta.hrad</category>
+            <regex>Ovčáček</regex>
+            <regex>Ovčáčka</regex>
+            <regex>Ovčáčkovi</regex>
+            <regex>Ovčáčku</regex>
+            <regex>Ovčáčkem</regex>
+        </item>
+        <item>
+            <id>2</id>
+            <name>Forejt</name>
+            <category>zemanova parta</category>
+            <category>zemanova parta.hrad</category>
+            <regex>Forejt</regex>
+        </item>
+        <item>
+            <id>3</id>
+            <name>Grégr</name>
+            <category>zemanova parta</category>
+            <category>zemanova parta.podhradí</category>
+            <regex>Grégr</regex>
+        </item>
+        <item>
+            <id>4</id>
+            <name>Šlouf</name>
+            <category>zemanova parta</category>
+            <category>zemanova parta.podhradí</category>
+            <regex>Šlouf</regex>
+        </item>
+    </knowledgebase>
+</configuration>
+
+

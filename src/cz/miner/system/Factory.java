@@ -7,6 +7,7 @@ package cz.miner.system;
 
 import cz.miner.workers.Tester;
 import cz.miner.workers.Worker;
+import cz.miner.workers.classification.regexClassifier.RegexClassifier;
 import cz.miner.workers.input.rssReader.RSSReader;
 import cz.miner.workers.output.terminalWriter.TerminalWriter;
 import org.xml.sax.SAXException;
@@ -76,6 +77,12 @@ public class Factory {
 
 			if(workerType.equals("output.TerminalWriter")){
 				Worker worker = new TerminalWriter(workerIniFile);
+				worker.setName(workerName);
+				workers_.add(worker);
+			}
+
+			if(workerType.equals("classification.RegexClassifier")){
+				Worker worker = new RegexClassifier(workerIniFile);
 				worker.setName(workerName);
 				workers_.add(worker);
 			}

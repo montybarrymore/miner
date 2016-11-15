@@ -8,6 +8,7 @@ package cz.miner;
 import cz.miner.system.Factory;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class Main {
      * @throws ParserConfigurationException někde je chyba.
      * @throws SAXException někde je chyba.
      */
-	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException {
+	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
 		String iniFile = args[0];
 		Factory factory = new Factory(iniFile);
 		factory.work();

@@ -12,6 +12,7 @@ import cz.miner.workers.input.rssReader.RSSReader;
 import cz.miner.workers.output.terminalWriter.TerminalWriter;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
@@ -42,7 +43,7 @@ public class Factory {
      * @throws ParserConfigurationException někde je chyba.
      * @throws SAXException někde je chyba.
      */
-	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException{
+	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
 		BufferedReader br = new BufferedReader(new FileReader(iniFile));
 		streamName_ = br.readLine();
 		workers_ = new ArrayList<>();

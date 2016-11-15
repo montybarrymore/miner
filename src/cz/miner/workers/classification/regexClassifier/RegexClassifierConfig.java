@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by daniel on 4.11.16.
  */
-@XmlRootElement(name = "config")
+@XmlRootElement(name = "RegexClassifierConfig")
 public class RegexClassifierConfig {
-    private ArrayList<ClassificationItem> classificatioItems_ = new ArrayList<>();
+   ArrayList<ClassificationItem> knowledgebase = new ArrayList<>();
 }

@@ -2,16 +2,18 @@
 <regexClassifierConfig>
     <inputTable>text</inputTable>
     <inputColumn>text</inputColumn>
+    <outputTable>classification</outputTable>
+    <outputCategoryColumn>category</outputCategoryColumn>
+    <outputScoreColumn>score</outputScoreColumn>
     <knowledgebase>
         <item>
-            <category>c1</category>
-            <category>c3</category>
-            <regex>r1</regex>
+            <category>Evropa</category>
+            <category>Evropa.ČR</category>
+            <regex>Češky</regex>
         </item>
         <item>
-            <category>c2</category>
-            <regex>r2</regex>
+            <category>pokus</category>
+            <regex>všechno</regex>
         </item>
     </knowledgebase>
 </regexClassifierConfig>
-

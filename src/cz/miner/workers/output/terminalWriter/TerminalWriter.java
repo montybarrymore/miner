@@ -128,7 +128,14 @@ public class TerminalWriter extends Worker{
 		for(int i = 0; i < data.getRowCount(table_); i++){
 			ArrayList<String> cells = new ArrayList<>();
 			for(OutputColumn outColumn : outputColumns_){
-				String cell = (String) data.getValue(table_, outColumn.name, i);
+				String cell;
+
+				try {
+					cell = (String) data.getValue(table_, outColumn.name, i);
+				} catch(Exception e) {
+					cell = Integer.toString((Integer) data.getValue(table_, outColumn.name, i));
+				}
+
 				cells.add(cell);
 			}
 			
@@ -139,7 +146,9 @@ public class TerminalWriter extends Worker{
 			
 			while(sumLength > 0){
 				for(int col = 0; col < outputColumns_.size(); col++){
-					System.out.print("|");
+					if(col == 0) {
+						System.out.print("|");
+					}
 					String s = cells.get(col);
 					if(s.length() < outputColumns_.get(col).width){
 						while(s.length() < outputColumns_.get(col).width){

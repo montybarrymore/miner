@@ -13,12 +13,13 @@ import java.util.List;
 @XmlRootElement(name = "regexClassifierConfig")
 @XmlSeeAlso({ClassificationItem.class})
 public class RegexClassifierConfig {
-   @XmlElementWrapper(name = "knowledgebase")
-   @XmlElement(name = "item")
-   public List<ClassificationItem> knowledgeBase = new ArrayList<ClassificationItem>();
+	@XmlElementWrapper(name = "knowledgebase")
+	@XmlElement(name = "item")
+	public List<ClassificationItem> knowledgeBase = new ArrayList<ClassificationItem>();
 
-   public String inputTable;
-   public String inputColumn;
-
-
+	public String inputTable;
+	public String inputColumn;
+	public String outputTable;
+	public String outputCategoryColumn;
+	public String outputScoreColumn;
 }

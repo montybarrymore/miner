@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <table>classification</table>
+  <column>
+	  <name>category</name>
+	  <width>50</width>
+  </column>
+  <column>
+      <name>score</name>
+      <width>10</width>
+  </column>
+</settings>

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RegexClassifierConfig>
+<regexClassifierConfig>
+    <inputTable>text</inputTable>
+    <inputColumn>text</inputColumn>
     <knowledgebase>
-
+        <item>
+            <category>c1</category>
+            <category>c3</category>
+            <regex>r1</regex>
+        </item>
+        <item>
+            <category>c2</category>
+            <regex>r2</regex>
+        </item>
     </knowledgebase>
-</RegexClassifierConfig>
-
+</regexClassifierConfig>
 

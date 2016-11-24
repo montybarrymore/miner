@@ -1,27 +1,26 @@
 package cz.miner.workers.classification.regexClassifier;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by daniel on 4.11.16.
  */
+@XmlRootElement(name = "item")
 public class ClassificationItem {
-    private ArrayList<String> categories_ = new ArrayList<>();
-    private ArrayList<String> regexes_ = new ArrayList<>();
+	@XmlElement(name = "category")
+	private List<String> categories_ = new ArrayList<>();
 
-    public void addCategory(String category) {
-        categories_.add(category);
-    }
+	@XmlElement(name = "regex")
+    private List<String> regexes_ = new ArrayList<>();
 
-    public ArrayList<String> getCategories() {
+    public List<String> getCategories() {
         return categories_;
     }
 
-    public void addRegex(String regex) {
-        regexes_.add(regex);
-    }
-
-    public ArrayList<String> getRegexes() {
+    public List<String> getRegexes() {
         return regexes_;
     }
 }

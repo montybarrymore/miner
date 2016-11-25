@@ -5,6 +5,7 @@
  */
 package cz.miner.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Slouží k předávání dat mezi jendotlivými workery ve Factory.
  * @author daniel
  */
-public class Data {
+public class Data implements Serializable {
 	/**
 	 * Jméno datasetu.
 	 */

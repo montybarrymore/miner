@@ -5,10 +5,12 @@
  */
 package cz.miner.system;
 
+import java.io.Serializable;
+
 /**
  * Slouží k uložení dat. Může obsahovat libovolný objekt.
  */
-public class Cell {
+public class Cell implements Serializable {
 	/**
 	 * Hodnota uložená v buňce.
 	 */

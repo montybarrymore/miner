@@ -5,13 +5,14 @@
  */
 package cz.miner.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Obsahuje data uspořádaná do sloupců a řádků.
  */
-public class Table {
+public class Table implements Serializable {
 	/**
 	 * Jméno tabulky.
 	 */

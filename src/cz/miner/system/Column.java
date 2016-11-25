@@ -5,13 +5,14 @@
  */
 package cz.miner.system;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Slouží k uložení buněk třídy Cell.
  */
-public class Column {
+public class Column implements Serializable {
 	/**
 	 * Seznam buněk.
 	 */

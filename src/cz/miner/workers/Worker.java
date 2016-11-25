@@ -7,6 +7,8 @@ package cz.miner.workers;
 
 import cz.miner.system.Data;
 
+import java.io.IOException;
+
 /**
  * Dělník ve Factory.
  */
@@ -20,7 +22,7 @@ public class Worker {
 	 * Zpracuje data.
 	 * @param data zpracovávaný datastream.
 	 */
-	public void doIt(Data data){
+	public void doIt(Data data) throws IOException {
 		System.out.println(name_ + ": doIt nedefinovano");
 	}
 

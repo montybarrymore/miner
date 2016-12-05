@@ -22,7 +22,7 @@ public class Worker {
 	 * Zpracuje data.
 	 * @param data zpracovávaný datastream.
 	 */
-	public void doIt(Data data) throws IOException {
+	public void doIt(Data data) throws IOException, ClassNotFoundException, InterruptedException {
 		System.out.println(name_ + ": doIt nedefinovano");
 	}
 

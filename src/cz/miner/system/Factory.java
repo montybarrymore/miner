@@ -9,6 +9,7 @@ import cz.miner.workers.Tester;
 import cz.miner.workers.Worker;
 import cz.miner.workers.classification.regexClassifier.RegexClassifier;
 import cz.miner.workers.input.rssReader.RSSReader;
+import cz.miner.workers.input.tcpDataReader.TcpDataReader;
 import cz.miner.workers.output.tcpDataWriter.TcpDataWriter;
 import cz.miner.workers.output.terminalWriter.TerminalWriter;
 import org.xml.sax.SAXException;
@@ -70,9 +71,21 @@ public class Factory {
 				worker.setName(workerName);
 				workers_.add(worker);
 			}
-			
+
+			if(workerType.equals("classification.RegexClassifier")){
+				Worker worker = new RegexClassifier(workerIniFile);
+				worker.setName(workerName);
+				workers_.add(worker);
+			}
+
 			if(workerType.equals("input.RSSReader")){
 				Worker worker = new RSSReader(workerIniFile);
+				worker.setName(workerName);
+				workers_.add(worker);
+			}
+
+			if(workerType.equals("input.TcpDataReader")){
+				Worker worker = new TcpDataReader(workerIniFile);
 				worker.setName(workerName);
 				workers_.add(worker);
 			}
@@ -83,25 +96,18 @@ public class Factory {
 				workers_.add(worker);
 			}
 
-			if(workerType.equals("output.TerminalWriter")){
+			if(workerType.equals("output.TerminalWriter")) {
 				Worker worker = new TerminalWriter(workerIniFile);
 				worker.setName(workerName);
 				workers_.add(worker);
 			}
-
-			if(workerType.equals("classification.RegexClassifier")){
-				Worker worker = new RegexClassifier(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
-
 		}
 	}
 
     /**
      * Zahájí zpracování streamu.
      */
-    public void work() throws IOException{
+    public void work() throws IOException, ClassNotFoundException, InterruptedException {
 		while(true){
 			Data data = new Data(streamName_);
 			for(int i = 0; i < workers_.size(); i++){

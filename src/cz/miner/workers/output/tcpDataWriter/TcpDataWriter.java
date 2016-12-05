@@ -29,11 +29,29 @@ public class TcpDataWriter extends Worker{
 
 	@Override
 	public void doIt(Data data) throws IOException{
-		System.out.println("server");
-		Socket socket = serverSocket_.accept();
-		ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
-		objectOutput.writeObject(data);
-		objectOutput.close();
-		socket.close();
+		Socket socket = null;
+		ObjectOutputStream objectOutput = null;
+
+		boolean dataSendError = true;
+		while(dataSendError) {
+			System.out.println("server");
+			try {
+				socket = serverSocket_.accept();
+				objectOutput = new ObjectOutputStream(socket.getOutputStream());
+				objectOutput.writeObject(data);
+				objectOutput.close();
+				socket.close();
+				dataSendError = false;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				if(objectOutput != null) {
+					objectOutput.close();
+				}
+				if(socket != null) {
+					socket.close();
+				}
+				dataSendError = true;
+			}
+		}
 	}
 }

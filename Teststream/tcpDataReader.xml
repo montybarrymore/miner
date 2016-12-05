@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tcpDataReaderConfig>
+    <servers>
+        <server>127.0.0.1:10000</server>
+        <server>127.0.0.1:10001</server>
+    </servers>
+    <timeout>10000</timeout>
+</tcpDataReaderConfig>

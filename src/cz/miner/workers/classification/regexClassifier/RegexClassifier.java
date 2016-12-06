@@ -22,7 +22,7 @@ public class  RegexClassifier extends Worker {
 	}
 
 	@Override
-	public void doIt(Data data) {
+	public Data doIt(Data data) {
 		String text = "";
 		for(int i = 0; i < data.getRowCount(config_.inputTable); i++) {
 			text += (String) data.getValue(config_.inputTable, config_.inputColumn, i);
@@ -58,5 +58,7 @@ public class  RegexClassifier extends Worker {
 			data.setValue(config_.outputTable, config_.outputCategoryColumn, data.getRowCount(config_.outputTable) - 1, key);
 			data.setValue(config_.outputTable, config_.outputScoreColumn, data.getRowCount(config_.outputTable) - 1, value);
 		}
+
+		return data;
 	}
 }

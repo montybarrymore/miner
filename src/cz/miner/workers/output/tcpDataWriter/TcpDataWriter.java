@@ -28,7 +28,7 @@ public class TcpDataWriter extends Worker{
 	}
 
 	@Override
-	public void doIt(Data data) throws IOException{
+	public Data doIt(Data data) throws IOException{
 		Socket socket = null;
 		ObjectOutputStream objectOutput = null;
 
@@ -44,14 +44,24 @@ public class TcpDataWriter extends Worker{
 				dataSendError = false;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				if(objectOutput != null) {
-					objectOutput.close();
+				try {
+					if(objectOutput != null) {
+						objectOutput.close();
+					}
+				} catch(Exception e1) {
+					System.out.println(e1.getMessage());
 				}
-				if(socket != null) {
-					socket.close();
+				try {
+					if(socket != null) {
+						socket.close();
+					}
+				} catch(Exception e1) {
+					System.out.println(e1.getMessage());
 				}
 				dataSendError = true;
 			}
 		}
+
+		return data;
 	}
 }

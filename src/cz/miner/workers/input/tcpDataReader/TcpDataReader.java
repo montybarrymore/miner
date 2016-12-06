@@ -27,35 +27,41 @@ public class TcpDataReader extends Worker{
         config_ = (TcpDataReaderConfig) jaxbUnmarshaller.unmarshal(new File(iniFile));
     }
 
-    public void doIt(Data data) throws InterruptedException, IOException {
-        if(serverIndex >= config_.servers.size()) {
-            serverIndex = 0;
-        }
+    public Data doIt(Data data) throws InterruptedException, IOException {
+        boolean waitingForData = true;
+        while(waitingForData) {
+            if(serverIndex >= config_.servers.size()) {
+                serverIndex = 0;
+            }
 
-        String serverString = config_.servers.get(serverIndex);
-        String serverName = serverString.substring(0, serverString.indexOf(":"));
-        int serverPort = Integer.parseInt(serverString.substring(serverString.indexOf(":") + 1));
+            String serverString = config_.servers.get(serverIndex);
+            String serverName = serverString.substring(0, serverString.indexOf(":"));
+            int serverPort = Integer.parseInt(serverString.substring(serverString.indexOf(":") + 1));
 
-        Socket socket = null;
-        ObjectInputStream inputStream = null;
-        try {
-            socket = new Socket(serverName, serverPort);
-            socket.setSoTimeout(config_.timeout);
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            data = (Data) inputStream.readObject();
-            System.out.println(LocalTime.now().toString() + " " +  data.getName());
-            inputStream.close();
-            socket.close();
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            sleep(config_.timeout);
-            serverIndex++;
-            if(inputStream != null) {
+            Socket socket = null;
+            ObjectInputStream inputStream = null;
+            try {
+                socket = new Socket(serverName, serverPort);
+                socket.setSoTimeout(config_.timeout);
+                inputStream = new ObjectInputStream(socket.getInputStream());
+                data = (Data) inputStream.readObject();
+                System.out.println(LocalTime.now().toString() + " " +  data.getName());
                 inputStream.close();
-            }
-            if(socket != null) {
                 socket.close();
+                waitingForData = false;
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+                sleep(config_.timeout);
+                serverIndex++;
+                if(inputStream != null) {
+                    inputStream.close();
+                }
+                if(socket != null) {
+                    socket.close();
+                }
             }
         }
+
+        return data;
     }
 }

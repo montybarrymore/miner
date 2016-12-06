@@ -111,7 +111,7 @@ public class Factory {
 		while(true){
 			Data data = new Data(streamName_);
 			for(int i = 0; i < workers_.size(); i++){
-				workers_.get(i).doIt(data);
+				data = workers_.get(i).doIt(data);
 			}
 		}
 	}

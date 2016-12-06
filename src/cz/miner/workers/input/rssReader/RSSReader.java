@@ -137,7 +137,7 @@ public class RSSReader extends Worker{
      * @param data datastream.
      */
 	@Override
-	public void doIt(Data data){
+	public Data doIt(Data data){
 		data.addTable(table_);
 		data.addColumn(table_, column_);
 		boolean nextRead = true;
@@ -218,6 +218,8 @@ public class RSSReader extends Worker{
 		} catch (IOException ex) {
 			Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+		return data;
 	}
 
     /**

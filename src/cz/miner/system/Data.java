@@ -113,7 +113,11 @@ public class Data implements Serializable {
 		return returnValue;
 	}
 
-	public String getName() {
+    /**
+     * Vrátí jméno datastreamu
+     * @return jméno streamu.
+     */
+    public String getName() {
     	return name_;
 	}
 }

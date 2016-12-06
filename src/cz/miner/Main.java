@@ -26,7 +26,7 @@ public class Main {
      * @throws ParserConfigurationException někde je chyba.
      * @throws SAXException někde je chyba.
      */
-	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
+	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException {
 		String iniFile = args[0];
 		Factory factory = new Factory(iniFile);
 		factory.work();

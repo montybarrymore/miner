@@ -58,10 +58,10 @@ public class TcpDataReader extends Worker{
                 socket.setSoTimeout(config_.timeout);
                 inputStream = new ObjectInputStream(socket.getInputStream());
                 data = (Data) inputStream.readObject();
+                waitingForData = false;
                 System.out.println(LocalTime.now().toString() + " " +  data.getName());
                 inputStream.close();
                 socket.close();
-                waitingForData = false;
             } catch(Exception e) {
                 System.out.println(e.getMessage());
                 sleep(config_.timeout);

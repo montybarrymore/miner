@@ -90,7 +90,7 @@ public class TerminalWriter extends Worker{
 	 * @param data datastream.
 	 */
 	@Override
-    public void doIt(Data data){
+    public Data doIt(Data data){
 		// Vrchni cara v tabulce
 		System.out.print("+");
 		for(OutputColumn outColumn : outputColumns_){
@@ -180,6 +180,8 @@ public class TerminalWriter extends Worker{
 			}
 			System.out.print("+");
 		}
-		System.out.println("");	
+		System.out.println("");
+
+		return data;
 	}
 }

@@ -44,6 +44,7 @@ public class Factory {
      * @throws XMLStreamException někde je chyba.
      * @throws ParserConfigurationException někde je chyba.
      * @throws SAXException někde je chyba.
+	 * @throws JAXBException někde je chyba.
      */
 	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
 		BufferedReader br = new BufferedReader(new FileReader(iniFile));
@@ -106,8 +107,10 @@ public class Factory {
 
     /**
      * Zahájí zpracování streamu.
-     */
-    public void work() throws IOException, ClassNotFoundException, InterruptedException {
+	 * @throws IOException někde je chyba.
+	 * @throws InterruptedException někde je chyba.
+	 */
+    public void work() throws IOException, InterruptedException {
 		while(true){
 			Data data = new Data(streamName_);
 			for(int i = 0; i < workers_.size(); i++){

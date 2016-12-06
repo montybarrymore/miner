@@ -10,12 +10,21 @@ import java.io.File;
 import java.util.*;
 
 /**
+ * Extrahuje entity na základě regulárních výrazů a určí jejich kategorie.
  * Created by daniel on 27.10.16.
  */
 public class  RegexClassifier extends Worker {
-	private RegexClassifierConfig config_ = new RegexClassifierConfig();
+    /**
+     * Konfigurace workeru.
+     */
+    private RegexClassifierConfig config_ = new RegexClassifierConfig();
 
-	public RegexClassifier(String iniFile) throws JAXBException {
+    /**
+     * Konstruktor.
+     * @param iniFile cesta k ini souboru s konfigurací.
+     * @throws JAXBException chyba v konfiguračním souboru.
+     */
+    public RegexClassifier(String iniFile) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(RegexClassifierConfig.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		config_ = (RegexClassifierConfig) jaxbUnmarshaller.unmarshal(new File(iniFile));

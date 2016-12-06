@@ -25,6 +25,9 @@ public class Main {
      * @throws XMLStreamException někde je chyba.
      * @throws ParserConfigurationException někde je chyba.
      * @throws SAXException někde je chyba.
+	 * @throws ClassNotFoundException někde je chyba.
+	 * @throws InterruptedException někde je chyba.
+	 * @throws JAXBException někde je chyba.
      */
 	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException {
 		String iniFile = args[0];

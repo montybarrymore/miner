@@ -13,12 +13,25 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * Odesílá datastream. Vytvoří soket na zadaném portu a čeká na TcpDataReader, až si je vyzvedne.
  * Created by daniel on 25.11.16.
  */
 public class TcpDataWriter extends Worker{
+	/**
+	 * Konfigurace TcpDataWriteru.
+	 */
 	private TcpDataWriterConfig config_ = new TcpDataWriterConfig();
+	/**
+	 * Socket, na kterém čeká na odebrání dat.
+	 */
 	private ServerSocket serverSocket_;
 
+	/**
+	 * Konstruktor.
+	 * @param iniFile Cesta ke konfiguračnímu souboru.
+	 * @throws JAXBException chyba v konfiguračím souboru.
+	 * @throws IOException chyba při odesílání dat.
+	 */
 	public TcpDataWriter (String iniFile) throws JAXBException, IOException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(TcpDataWriterConfig.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

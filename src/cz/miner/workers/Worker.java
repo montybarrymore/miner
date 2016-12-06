@@ -21,8 +21,11 @@ public class Worker {
 	/**
 	 * Zpracuje data.
 	 * @param data zpracovávaný datastream.
+     * @return modifikovaný datastream.
+     * @throws IOException někde je chyba.
+     * @throws InterruptedException někde je chyba.
 	 */
-	public Data doIt(Data data) throws IOException, ClassNotFoundException, InterruptedException {
+	public Data doIt(Data data) throws IOException, InterruptedException {
 		System.out.println(name_ + ": doIt nedefinovano");
 		return null;
 	}

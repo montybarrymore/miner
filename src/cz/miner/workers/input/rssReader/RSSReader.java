@@ -94,12 +94,11 @@ public class RSSReader extends Worker{
      * Vytvoří RSSReader.
      *
      * @param iniFile cesta ke konfiguračnímu souboru.
-     * @throws XMLStreamException něco je špatně.
      * @throws IOException něco je špatně.
      * @throws ParserConfigurationException něco je špatně.
      * @throws SAXException něco je špatně.
      */
-    public RSSReader(String iniFile) throws XMLStreamException, IOException, ParserConfigurationException, SAXException{
+    public RSSReader(String iniFile) throws IOException, ParserConfigurationException, SAXException{
 		File fXmlFile = new File(iniFile);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,39 +43,77 @@ public class TcpDataWriter extends Worker{
 
 	@Override
 	public Data doIt(Data data) throws IOException{
-		Socket socket = null;
-		ObjectOutputStream objectOutput = null;
+		while (true) {
+			boolean success = false;
 
-		boolean dataSendError = true;
-		while(dataSendError) {
-			System.out.println("server");
-			try {
-				socket = serverSocket_.accept();
-				objectOutput = new ObjectOutputStream(socket.getOutputStream());
-				objectOutput.writeObject(data);
-				objectOutput.close();
-				socket.close();
-				dataSendError = false;
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				try {
-					if(objectOutput != null) {
-						objectOutput.close();
+			do {
+				ServerSocket serverSocket = null;
+				Socket socket = null;
+				ObjectOutputStream outputStream = null;
+				ObjectInputStream inputStream = null;
+
+				boolean clientConnected = false;
+				boolean clientReadyToSend = true;
+				boolean objectSent = false;
+
+				do {
+					try {
+						serverSocket = new ServerSocket(config_.socket);
+						socket = serverSocket.accept();
+						outputStream = new ObjectOutputStream(socket.getOutputStream());
+						inputStream = new ObjectInputStream(socket.getInputStream());
+						clientConnected = true;
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
 					}
-				} catch(Exception e1) {
-					System.out.println(e1.getMessage());
-				}
+				} while (!clientConnected);
+
 				try {
-					if(socket != null) {
-						socket.close();
+					String s = (String) inputStream.readObject();
+					if (s.equals("Ready to receive.")) {
+						clientReadyToSend = true;
 					}
-				} catch(Exception e1) {
-					System.out.println(e1.getMessage());
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
-				dataSendError = true;
-			}
+
+				if (clientReadyToSend) {
+					try {
+						outputStream.writeObject(data);
+						outputStream.flush();
+						objectSent = true;
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
+
+				if (objectSent) {
+					try {
+						String s = (String) inputStream.readObject();
+						if (s.equals("Object received.")) {
+							success = true;
+						}
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
+
+				if (inputStream != null) {
+					inputStream.close();
+				}
+				if (outputStream != null) {
+					outputStream.close();
+				}
+				if (serverSocket != null) {
+					serverSocket.close();
+				}
+				if (socket != null) {
+					socket.close();
+				}
+
+			} while (!success);
+
+			return data;
 		}
-
-		return data;
 	}
 }

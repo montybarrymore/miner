@@ -9,10 +9,8 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.time.LocalTime;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Načítá datastreamy ze zadaných IP adres a portů. Nejprve vyčte všechny streamy z jednoho zdroje, po uplynutí timeoutu
@@ -41,39 +39,50 @@ public class TcpDataReader extends Worker{
     }
 
     public Data doIt(Data data) throws IOException, InterruptedException {
-        boolean waitingForData = true;
-        while(waitingForData) {
-            if(serverIndex >= config_.servers.size()) {
-                serverIndex = 0;
+        Socket clientSocket = null;
+
+        boolean connected = false;
+        boolean objectReceived = false;
+
+        int i = 0;
+        do {
+            if (i >= config_.servers.size()) {
+                i = 0;
             }
 
-            String serverString = config_.servers.get(serverIndex);
-            String serverName = serverString.substring(0, serverString.indexOf(":"));
-            int serverPort = Integer.parseInt(serverString.substring(serverString.indexOf(":") + 1));
-
-            Socket socket = null;
-            ObjectInputStream inputStream = null;
             try {
-                socket = new Socket(serverName, serverPort);
-                socket.setSoTimeout(config_.timeout);
-                inputStream = new ObjectInputStream(socket.getInputStream());
-                data = (Data) inputStream.readObject();
-                waitingForData = false;
-                System.out.println(LocalTime.now().toString() + " " +  data.getName());
-                inputStream.close();
-                socket.close();
-            } catch(Exception e) {
+                String server = config_.servers.get(i);
+                String serverName = server.substring(0, server.indexOf(":"));
+                int serverPort = Integer.parseInt(server.substring(server.indexOf(":") + 1));
+                clientSocket = new Socket(serverName, serverPort);
+                connected = true;
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
-                sleep(config_.timeout);
-                serverIndex++;
-                if(inputStream != null) {
-                    inputStream.close();
-                }
-                if(socket != null) {
-                    socket.close();
-                }
+                i++;
             }
+        } while (!connected);
+
+        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+        ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
+
+        outputStream.writeObject("Ready to receive.");
+        outputStream.flush();
+
+        try {
+            data = (Data) inputStream.readObject();
+            objectReceived = true;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
         }
+
+        if(objectReceived) {
+            outputStream.writeObject("Object received.");
+            outputStream.flush();
+        }
+
+        outputStream.close();
+        inputStream.close();
+        clientSocket.close();
 
         return data;
     }

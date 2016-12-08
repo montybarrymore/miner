@@ -6,6 +6,7 @@
 package cz.miner;
 
 import cz.miner.system.Factory;
+import org.apache.tika.exception.TikaException;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -29,7 +30,7 @@ public class Main {
 	 * @throws InterruptedException někde je chyba.
 	 * @throws JAXBException někde je chyba.
      */
-	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException {
+	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException, TikaException {
 		String iniFile = args[0];
 		Factory factory = new Factory(iniFile);
 		factory.work();

@@ -8,9 +8,7 @@
   </proxy>
   <table>text</table>
   <text_column>text</text_column>
-  <url>http://servis.idnes.cz/rss.aspx?c=zpravodaj</url>
-  <regex>.*Komerční články---line terminator---</regex>
-  <regex>.*Reality---line terminator---</regex>
-  <regex>---line terminator---Autor.*</regex>
-  <regex>---line terminator---Autoři.*</regex>
+  <url>http://www.palba.cz/rss.php</url>
+  <regex>.*Registrovat---line terminator---Přihlásit se---line terminator---</regex>
+  <regex>Přejít na:---line terminator---Vyberte fórum.*</regex>
 </settings>

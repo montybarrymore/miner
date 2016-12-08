@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="tika-app-1.11" level="project" />
     <orderEntry type="library" name="rome-1.0" level="project" />
+    <orderEntry type="library" name="tika-app-1.11" level="project" />
   </component>
 </module>

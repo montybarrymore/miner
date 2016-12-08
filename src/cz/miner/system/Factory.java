@@ -12,6 +12,7 @@ import cz.miner.workers.input.rssReader.RSSReader;
 import cz.miner.workers.input.tcpDataReader.TcpDataReader;
 import cz.miner.workers.output.tcpDataWriter.TcpDataWriter;
 import cz.miner.workers.output.terminalWriter.TerminalWriter;
+import org.apache.tika.exception.TikaException;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -46,7 +47,7 @@ public class Factory {
      * @throws SAXException někde je chyba.
 	 * @throws JAXBException někde je chyba.
      */
-	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
+	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, TikaException {
 		BufferedReader br = new BufferedReader(new FileReader(iniFile));
 		streamName_ = br.readLine();
 		workers_ = new ArrayList<>();

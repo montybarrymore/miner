@@ -48,6 +48,7 @@ public class TcpDataReader extends Worker{
         do {
             if (i >= config_.servers.size()) {
                 i = 0;
+                Thread.sleep(config_.timeout);
             }
 
             try {
@@ -57,7 +58,7 @@ public class TcpDataReader extends Worker{
                 clientSocket = new Socket(serverName, serverPort);
                 connected = true;
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+//                System.out.println(config_.servers.get(i).toString() + " " + e.getMessage());
                 i++;
             }
         } while (!connected);

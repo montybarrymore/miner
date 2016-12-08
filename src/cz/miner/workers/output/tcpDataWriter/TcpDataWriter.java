@@ -22,10 +22,6 @@ public class TcpDataWriter extends Worker{
 	 * Konfigurace TcpDataWriteru.
 	 */
 	private TcpDataWriterConfig config_ = new TcpDataWriterConfig();
-	/**
-	 * Socket, na kterém čeká na odebrání dat.
-	 */
-	private ServerSocket serverSocket_;
 
 	/**
 	 * Konstruktor.
@@ -37,8 +33,6 @@ public class TcpDataWriter extends Worker{
 		JAXBContext jaxbContext = JAXBContext.newInstance(TcpDataWriterConfig.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		config_ = (TcpDataWriterConfig) jaxbUnmarshaller.unmarshal(new File(iniFile));
-
-		serverSocket_= new ServerSocket(config_.socket);
 	}
 
 	@Override
@@ -65,6 +59,9 @@ public class TcpDataWriter extends Worker{
 						clientConnected = true;
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
+						if(serverSocket != null) {
+							serverSocket.close();
+						}
 					}
 				} while (!clientConnected);
 

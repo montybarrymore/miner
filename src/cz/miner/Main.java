@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * 
@@ -30,9 +31,13 @@ public class Main {
 	 * @throws InterruptedException někde je chyba.
 	 * @throws JAXBException někde je chyba.
      */
-	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException, TikaException {
+	public static void main(String[] args) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, ClassNotFoundException, InterruptedException, TikaException, InvocationTargetException, IllegalAccessException {
 		String iniFile = args[0];
-		Factory factory = new Factory(iniFile);
-		factory.work();
+		while(true) {
+            Factory factory = new Factory(iniFile);
+            do {
+                factory.work();
+            } while(!factory.isModified());
+		}
 	}
 }

@@ -5,6 +5,11 @@
  */
 package cz.miner.workers.input.rssReader;
 
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 import cz.miner.system.Data;
 import cz.miner.workers.Worker;
 import org.apache.tika.exception.TikaException;
@@ -23,10 +28,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -98,7 +99,7 @@ public class RSSReader extends Worker{
      * @throws ParserConfigurationException něco je špatně.
      * @throws SAXException něco je špatně.
      */
-    public RSSReader(String iniFile) throws IOException, ParserConfigurationException, SAXException{
+    public RSSReader(String iniFile) throws IOException, ParserConfigurationException, SAXException, TikaException{
 		File fXmlFile = new File(iniFile);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -151,7 +152,7 @@ public class RSSReader extends Worker{
 				nextRead = false;
 			}else{
 				try {
-					System.out.println("Čekám");
+//					System.out.println("Čekám");
 					Thread.sleep(10000);
 				} catch (InterruptedException ex) {
 					Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,7 +163,7 @@ public class RSSReader extends Worker{
 		String outLink = newLinks_.get(0);
 		newLinks_.remove(0);
 		oldLinks_.add(outLink);
-		System.out.println("outLink: " + outLink);
+//		System.out.println("outLink: " + outLink);
 		
 		URL linkURL = null;
 		try {
@@ -255,15 +256,8 @@ public class RSSReader extends Worker{
 		}
 
 		URLConnection conn = null;
-		InputStream rssStream = null;
-		
-		if(proxyAddress_ == null) {
-			try {
-				rssStream = rssURL.openStream();
-			} catch (IOException ex) {
-				Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		} else {
+
+		if(proxyAddress_ != null) {
 			Authenticator.setDefault(authenticator);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress_, proxyPort_));
 
@@ -272,43 +266,24 @@ public class RSSReader extends Worker{
 			} catch (IOException ex) {
 				Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
 			}			
-
-			try {
-				rssStream = conn.getInputStream();
-			} catch (IOException ex) {
-				Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
-			}
 		}
 
-		XMLInputFactory inputFactory = XMLInputFactory.newFactory();
-		XMLEventReader eventReader = null;
-		try {
-			 eventReader = inputFactory.createXMLEventReader(rssStream);
-		} catch (XMLStreamException ex) {
-			Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		
-		while (eventReader.hasNext()) {
-			try {
-				XMLEvent event = eventReader.nextEvent();
-				if (event.isStartElement()) {
-					String localPart = event.asStartElement().getName().getLocalPart();
-					switch (localPart) {
-						case "link":
-							event = eventReader.nextEvent();
-							String link = event.asCharacters().getData();
-							if(isNewLink(link)){
-								newLinks_.add(link);
-								System.out.println("Nový odkaz: " + link);
-							}
-							break;
-					}
-				}
-			} catch (XMLStreamException ex) {
-				Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
-		rssStream.close();
+		SyndFeedInput input = new SyndFeedInput();
+        try {
+            SyndFeed feed = input.build(new XmlReader(conn));
+
+            for (SyndEntry entry : (List<SyndEntry>) feed.getEntries()) {
+                String link = entry.getLink();
+                if(link != null) {
+                    if(isNewLink(link)){
+                        newLinks_.add(link);
+                    }
+
+                }
+            }
+        } catch (FeedException e) {
+            e.printStackTrace();
+        }
 	}
 
     /**

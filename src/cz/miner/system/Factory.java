@@ -5,23 +5,23 @@
  */
 package cz.miner.system;
 
-import cz.miner.workers.Tester;
 import cz.miner.workers.Worker;
-import cz.miner.workers.classification.regexClassifier.RegexClassifier;
-import cz.miner.workers.input.rssReader.RSSReader;
-import cz.miner.workers.input.tcpDataReader.TcpDataReader;
-import cz.miner.workers.output.tcpDataWriter.TcpDataWriter;
-import cz.miner.workers.output.terminalWriter.TerminalWriter;
+import org.apache.tika.exception.TikaException;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Slouží k řízení jednotlivých workerů.
@@ -38,6 +38,8 @@ public class Factory {
      */
     private String streamName_;
 
+    private TreeMap<String, Long> mods_ = new TreeMap<>();
+
     /**
      * Vytvoří novou factory.
      * @param iniFile cesta ke konfiguračnímu souboru.
@@ -47,8 +49,9 @@ public class Factory {
      * @throws SAXException někde je chyba.
 	 * @throws JAXBException někde je chyba.
      */
-	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException {
-		BufferedReader br = new BufferedReader(new FileReader(iniFile));
+	public Factory(String iniFile) throws IOException, XMLStreamException, ParserConfigurationException, SAXException, JAXBException, TikaException, IllegalAccessException, InvocationTargetException {
+	    BufferedReader br = new BufferedReader(new FileReader(iniFile));
+	    mods_.put(iniFile, new File(iniFile).lastModified());
 		streamName_ = br.readLine();
 		workers_ = new ArrayList<>();
 		while(br.ready()){
@@ -68,41 +71,19 @@ public class Factory {
 			System.out.print("Soubor: ");
 			System.out.println(workerIniFile);
 
-			if(workerType.equals("Tester")){
-				Worker worker = new Tester(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
+			String className = "cz.miner.workers." + workerType;
+            Constructor c = null;
+            Worker worker = null;
 
-			if(workerType.equals("classification.RegexClassifier")){
-				Worker worker = new RegexClassifier(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
-
-			if(workerType.equals("input.RSSReader")){
-				Worker worker = new RSSReader(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
-
-			if(workerType.equals("input.TcpDataReader")){
-				Worker worker = new TcpDataReader(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
-
-			if(workerType.equals("output.TcpDataWriter")){
-				Worker worker = new TcpDataWriter(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
-
-			if(workerType.equals("output.TerminalWriter")) {
-				Worker worker = new TerminalWriter(workerIniFile);
-				worker.setName(workerName);
-				workers_.add(worker);
-			}
+            try {
+                c = Class.forName(className).getConstructor(String.class);
+                worker = (Worker) c.newInstance(workerIniFile);
+                worker.setName(workerName);
+                workers_.add(worker);
+                mods_.put(workerIniFile, new File(workerIniFile).lastModified());
+            } catch (Exception e) {
+                System.out.println("Worker nevytvoren.");
+            }
 		}
 	}
 
@@ -112,11 +93,19 @@ public class Factory {
 	 * @throws InterruptedException někde je chyba.
 	 */
     public void work() throws IOException, InterruptedException {
-		while(true){
-			Data data = new Data(streamName_);
-			for(int i = 0; i < workers_.size(); i++){
-				data = workers_.get(i).doIt(data);
-			}
-		}
+        Data data = new Data(streamName_);
+        for(int i = 0; i < workers_.size(); i++){
+            data = workers_.get(i).doIt(data);
+        }
 	}
+
+	public boolean isModified() {
+        boolean returnValue = false;
+        for(Map.Entry<String, Long> entry : mods_.entrySet()) {
+            if(new File(entry.getKey()).lastModified() != entry.getValue()) {
+                returnValue = true;
+            }
+        }
+        return returnValue;
+    }
 }

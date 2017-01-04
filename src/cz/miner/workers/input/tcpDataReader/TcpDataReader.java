@@ -40,6 +40,8 @@ public class TcpDataReader extends Worker{
 
     public Data doIt(Data data) throws IOException, InterruptedException {
         Socket clientSocket = null;
+        ObjectOutputStream outputStream = null;
+        ObjectInputStream inputStream = null;
 
         boolean connected = false;
         boolean objectReceived = false;
@@ -56,6 +58,9 @@ public class TcpDataReader extends Worker{
                 String serverName = server.substring(0, server.indexOf(":"));
                 int serverPort = Integer.parseInt(server.substring(server.indexOf(":") + 1));
                 clientSocket = new Socket(serverName, serverPort);
+                outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+                inputStream = new ObjectInputStream(clientSocket.getInputStream());
+
                 connected = true;
             } catch (Exception e) {
 //                System.out.println(config_.servers.get(i).toString() + " " + e.getMessage());
@@ -63,28 +68,26 @@ public class TcpDataReader extends Worker{
             }
         } while (!connected);
 
-        ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-        ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
-
-        outputStream.writeObject("Ready to receive.");
-        outputStream.flush();
-
-        try {
-            data = (Data) inputStream.readObject();
-            objectReceived = true;
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        if(objectReceived) {
-            outputStream.writeObject("Object received.");
+        if(connected) {
+            outputStream.writeObject("Ready to receive.");
             outputStream.flush();
+
+            try {
+                data = (Data) inputStream.readObject();
+                objectReceived = true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            if (objectReceived) {
+                outputStream.writeObject("Object received.");
+                outputStream.flush();
+            }
+
+            outputStream.close();
+            inputStream.close();
+            clientSocket.close();
         }
-
-        outputStream.close();
-        inputStream.close();
-        clientSocket.close();
-
         return data;
     }
 }

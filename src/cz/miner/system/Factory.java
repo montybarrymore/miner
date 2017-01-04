@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Slouží k řízení jednotlivých workerů.
+ * @version 1.0.0
  */
 public class Factory {
     /**

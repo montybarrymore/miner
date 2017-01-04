@@ -38,7 +38,10 @@ public class Factory {
      */
     private String streamName_;
 
-    private TreeMap<String, Long> mods_ = new TreeMap<>();
+	/**
+	 * Čas poslední modifikace konfiguračních souborů.
+	 */
+	private TreeMap<String, Long> mods_ = new TreeMap<>();
 
     /**
      * Vytvoří novou factory.

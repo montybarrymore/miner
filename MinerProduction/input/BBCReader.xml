@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <table>text</table>
+  <text_column>text</text_column>
+  <url>http://feeds.bbci.co.uk/news/world/rss.xml</url>
+  <regex>.*Komerční články---line terminator---</regex>
+</settings>

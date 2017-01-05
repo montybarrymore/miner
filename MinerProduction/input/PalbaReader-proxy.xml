@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <proxy>
+    <address>192.168.1.1</address>
+    <port>8000</port>
+    <username>pokorny</username>
+    <password>apeigYFnt</password>
+  </proxy>
+  <table>text</table>
+  <text_column>text</text_column>
+  <url>http://www.palba.cz/rss.php</url>
+  <regex>.*Registrovat---line terminator---Přihlásit se---line terminator---</regex>
+  <regex>Přejít na:---line terminator---Vyberte fórum.*</regex>
+</settings>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <proxy>
+    <address>192.168.1.1</address>
+    <port>8000</port>
+    <username>pokorny</username>
+    <password>apeigYFnt</password>
+  </proxy>
+  <table>text</table>
+  <text_column>text</text_column>
+  <url>http://servis.idnes.cz/rss.aspx?c=zpravodaj</url>
+  <regex>.*Komerční články---line terminator---</regex>
+  <regex>.*Reality---line terminator---</regex>
+  <regex>---line terminator---Autor.*</regex>
+  <regex>---line terminator---Autoři.*</regex>
+</settings>

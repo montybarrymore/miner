@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<regexClassifierConfig>
+    <inputTable>text</inputTable>
+    <inputColumn>text</inputColumn>
+    <outputTable>classification</outputTable>
+    <outputCategoryColumn>category</outputCategoryColumn>
+    <outputScoreColumn>score</outputScoreColumn>
+    <knowledgebase>
+        <item>
+            <category>Evropa</category>
+            <category>Evropa.ČR</category>
+            <regex>Češky</regex>
+        </item>
+        <item>
+            <category>pokus</category>
+            <regex>všechno</regex>
+        </item>
+    </knowledgebase>
+</regexClassifierConfig>

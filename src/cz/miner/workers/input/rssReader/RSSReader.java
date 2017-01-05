@@ -266,6 +266,8 @@ public class RSSReader extends Worker{
 			} catch (IOException ex) {
 				Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
 			}			
+		} else {
+			conn = rssURL.openConnection();
 		}
 
 		SyndFeedInput input = new SyndFeedInput();

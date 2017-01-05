@@ -39,6 +39,7 @@ import java.util.logging.Logger;
 
 /**
  * Načítá obsah RSS kanálu do datového streamu.
+ * @version 1.0.1
  */
 public class RSSReader extends Worker{
 	/**

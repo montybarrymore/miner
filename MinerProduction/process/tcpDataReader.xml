@@ -6,5 +6,5 @@
         <server>127.0.0.1:10002</server>
         <server>127.0.0.1:10003</server>
     </servers>
-    <timeout>10000</timeout>
+    <timeout>1000</timeout>
 </tcpDataReaderConfig>

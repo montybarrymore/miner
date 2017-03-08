@@ -13,7 +13,8 @@
         </item>
         <item>
             <category>pokus</category>
-            <regex>všechno</regex>
+            <regex>iDNES</regex>
+            <regex>BBC</regex>
         </item>
     </knowledgebase>
 </regexClassifierConfig>

@@ -62,7 +62,7 @@ public class  RegexClassifier extends Worker {
 		data.addColumn(config_.outputTable, config_.outputScoreColumn);
 		for(Map.Entry<String,Integer> entry : result.entrySet()) {
 			String key = entry.getKey();
-			Integer value = entry.getValue();
+			Float value = (float) (1 - 1 / Math.pow(1.5, Float.valueOf(entry.getValue())));
 			data.addRow(config_.outputTable);
 			data.setValue(config_.outputTable, config_.outputCategoryColumn, data.getRowCount(config_.outputTable) - 1, key);
 			data.setValue(config_.outputTable, config_.outputScoreColumn, data.getRowCount(config_.outputTable) - 1, value);

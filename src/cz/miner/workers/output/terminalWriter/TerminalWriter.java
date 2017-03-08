@@ -128,22 +128,30 @@ public class TerminalWriter extends Worker{
 		for(int i = 0; i < data.getRowCount(table_); i++){
 			ArrayList<String> cells = new ArrayList<>();
 			for(OutputColumn outColumn : outputColumns_){
-				String cell;
+				String cell = "Undef.";
 
-				try {
-					cell = (String) data.getValue(table_, outColumn.name, i);
-				} catch(Exception e) {
-					cell = Integer.toString((Integer) data.getValue(table_, outColumn.name, i));
-				}
+				Object cellValue = data.getValue(table_, outColumn.name, i);
+
+				if(cellValue instanceof String) {
+				    cell = (String) cellValue;
+                }
+
+                if(cellValue instanceof Integer) {
+                    cell = Integer.toString((Integer) data.getValue(table_, outColumn.name, i));
+                }
+
+                if(cellValue instanceof Float) {
+                    cell = Float.toString((Float) data.getValue(table_, outColumn.name, i));
+                }
 
 				cells.add(cell);
-			}
+            }
 			
 			int sumLength = 0;
 			for(String c : cells){
 				sumLength = sumLength + c.length();
 			}
-			
+
 			while(sumLength > 0){
 				for(int col = 0; col < outputColumns_.size(); col++){
 					if(col == 0) {

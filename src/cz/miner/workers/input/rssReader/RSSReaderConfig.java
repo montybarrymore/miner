@@ -34,7 +34,7 @@ public class RSSReaderConfig {
     public String column;
 
     /**
-     * Seznam položek pro klasifikaci.
+     * Seznam vyrazu pro vymazani nezadoucich casti textu.
      */
     @XmlElementWrapper(name = "regexes")
     @XmlElement(name = "regex")

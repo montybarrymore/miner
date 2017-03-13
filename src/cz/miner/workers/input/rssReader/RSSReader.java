@@ -18,15 +18,12 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -42,21 +39,6 @@ import java.util.logging.Logger;
  * @version 1.0.1
  */
 public class RSSReader extends Worker{
-	/**
-	 * Adresa rss streamu.
-	 */
-	private String url_;
-
-    /**
-     * Jméno tabulky, do které se načítá text z RSS.
-     */
-    private String table_;
-
-    /**
-     * Jméno sloupce, do kerého se načítá tex z RSS.
-     */
-    private String column_;
-
     /**
      * List obsahující nově přidané odkazy.
      */
@@ -67,30 +49,7 @@ public class RSSReader extends Worker{
      */
     private List<String> oldLinks_ = new ArrayList<>();
 
-    /**
-     * List obsahující regulární výrazy pro ořezání textu.
-     */
-    private List<String> regexes_ = new ArrayList<>();
-
-    /**
-     * Prohy host.
-     */
-    private String proxyAddress_ = "";
-
-    /**
-     * Proxy port.
-     */
-    private int proxyPort_ = 0;
-
-    /**
-     * Username proxy.
-     */
-    private String proxyName_ = "";
-
-    /**
-     * Password proxy.
-     */
-    private String proxyPassword_ = "";
+    private RSSReaderConfig config_ = new RSSReaderConfig();
 
     /**
      * Vytvoří RSSReader.
@@ -100,37 +59,11 @@ public class RSSReader extends Worker{
      * @throws ParserConfigurationException něco je špatně.
      * @throws SAXException něco je špatně.
      */
-    public RSSReader(String iniFile) throws IOException, ParserConfigurationException, SAXException, TikaException{
-		File fXmlFile = new File(iniFile);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse(fXmlFile);
+    public RSSReader(String iniFile) throws IOException, ParserConfigurationException, SAXException, TikaException, JAXBException {
 
-		doc.getDocumentElement().normalize();
-
-		url_ = doc.getElementsByTagName("url").item(0).getTextContent();
-		table_ = doc.getElementsByTagName("table").item(0).getTextContent();
-		column_ = doc.getElementsByTagName("text_column").item(0).getTextContent();
-		
-		NodeList nList = doc.getElementsByTagName("regex");
-		for(int i = 0; i < nList.getLength(); i++) {
-			Node nNode = nList.item(i);
-			Element e = (Element)nNode;
-			regexes_.add(e.getTextContent());
-		}
-				
-		Node p = doc.getElementsByTagName("proxy").item(0);
-		
-		if(p == null) {
-			proxyAddress_ = null;
-		} else {
-			Element pe = (Element)p;
-			proxyAddress_ = pe.getElementsByTagName("address").item(0).getTextContent();
-			String q = pe.getElementsByTagName("port").item(0).getTextContent();
-			proxyPort_ = Integer.parseInt(q);
-			proxyName_ = pe.getElementsByTagName("username").item(0).getTextContent();
-			proxyPassword_ = pe.getElementsByTagName("password").item(0).getTextContent();			
-		}
+		JAXBContext jaxbContext = JAXBContext.newInstance(RSSReaderConfig.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		config_ = (RSSReaderConfig) jaxbUnmarshaller.unmarshal(new File(iniFile));
 	}
 
     /**
@@ -139,8 +72,8 @@ public class RSSReader extends Worker{
      */
 	@Override
 	public Data doIt(Data data){
-		data.addTable(table_);
-		data.addColumn(table_, column_);
+		data.addTable(config_.table);
+		data.addColumn(config_.table, config_.column);
 		boolean nextRead = true;
 		do{
 			try {
@@ -153,7 +86,6 @@ public class RSSReader extends Worker{
 				nextRead = false;
 			}else{
 				try {
-//					System.out.println("Čekám");
 					Thread.sleep(10000);
 				} catch (InterruptedException ex) {
 					Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,7 +96,6 @@ public class RSSReader extends Worker{
 		String outLink = newLinks_.get(0);
 		newLinks_.remove(0);
 		oldLinks_.add(outLink);
-//		System.out.println("outLink: " + outLink);
 		
 		URL linkURL = null;
 		try {
@@ -176,7 +107,7 @@ public class RSSReader extends Worker{
 		URLConnection conn = null;
 		InputStream linkStream = null;
 		
-		if(proxyAddress_ == null) {
+		if(config_.proxy == null) {
 			try {
 				linkStream = linkURL.openStream();
 			} catch (IOException ex) {
@@ -184,7 +115,7 @@ public class RSSReader extends Worker{
 			}
 		} else {
 			Authenticator.setDefault(authenticator);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress_, proxyPort_));
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config_.proxy.address, config_.proxy.port));
 
 			try {
 				conn = linkURL.openConnection(proxy);
@@ -212,8 +143,8 @@ public class RSSReader extends Worker{
 		outString = trimString(outString);
 		outString = outString.replaceAll("\r\n", " ");
 
-		data.addRow(table_);
-		data.setValue(table_, column_, 0, outString);
+		data.addRow(config_.table);
+		data.setValue(config_.table, config_.column, 0, outString);
 		try {
 			linkStream.close();
 		} catch (IOException ex) {
@@ -251,16 +182,16 @@ public class RSSReader extends Worker{
     private void readLinks() throws IOException{
 		URL rssURL = null;
 		try {
-			rssURL = new URL(url_);
+			rssURL = new URL(config_.url);
 		} catch (MalformedURLException ex) {
 			Logger.getLogger(RSSReader.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 		URLConnection conn = null;
 
-		if(proxyAddress_ != null) {
+		if(config_.proxy != null) {
 			Authenticator.setDefault(authenticator);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyAddress_, proxyPort_));
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(config_.proxy.address, config_.proxy.port));
 
 			try {
 				conn = rssURL.openConnection(proxy);
@@ -305,7 +236,7 @@ public class RSSReader extends Worker{
 		returnValue = returnValue.replaceAll("(\r\n)+", "\r\n");
 		returnValue = returnValue.replaceAll("\r\n", "---line terminator---");
 		
-		for(String re : regexes_){
+		for(String re : config_.regexes){
 			returnValue = returnValue.replaceAll(re, "");			
 		}
 		returnValue = returnValue.replaceAll("---line terminator---","\r\n");
@@ -313,16 +244,16 @@ public class RSSReader extends Worker{
 	}
 
     /**
-     * Autentizátor pro proxy.
+     * Autentizátor pro RSSProxy.
      */
 	Authenticator authenticator = new Authenticator() {
         /**
-         * Autentizace pro proxy.
-         * @return autentizace pro proxy.
+         * Autentizace pro RSSProxy.
+         * @return autentizace pro RSSProxy.
          */
         @Override
 		public PasswordAuthentication getPasswordAuthentication() {
-            return (new PasswordAuthentication(proxyName_, proxyPassword_.toCharArray()));
+            return (new PasswordAuthentication(config_.proxy.username, config_.proxy.password.toCharArray()));
         }
 	};
 }
